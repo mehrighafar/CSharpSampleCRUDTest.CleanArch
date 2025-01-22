@@ -1,0 +1,94 @@
+services:
+  csharp-sample-crudtest-cleanarch-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5003:8080"
+    depends_on:
+      - mongodb
+      - otel-collector
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+    env_file: "src/CSharpSampleCRUDTest.CleanArch.Web/.env"
+
+  mongodb:
+    image: mongo
+    container_name: mongo-db
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb-data:/data/db
+  
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    restart: always
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "9201:9201"
+    depends_on:
+      - jaeger-all-in-one
+
+  jaeger-all-in-one:
+    image: jaegertracing/all-in-one:latest
+    restart: always
+    ports:
+      - "16686:16686" # Jaeger UI
+      - "14268"
+      - "14250:14250" # GRPC endpoint for OpenTelemetry
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+ 
+  loki:
+    image: grafana/loki:latest
+    restart: always
+    user: "0"
+    container_name: loki
+    ports:
+      - "3100:3100" # Loki ingestion port
+    command: "-config.file=/etc/loki/loki-config.yaml"
+    volumes:
+      - ./loki-config.yaml:/etc/loki/loki-config.yaml
+      - loki-data:/loki
+
+  prometheus:
+    image: prom/prometheus:latest
+    restart: always
+    command:
+      - --config.file=/etc/prometheus/prometheus.yaml
+      - --web.enable-remote-write-receiver
+      - --enable-feature=exemplar-storage
+    ports:
+      - "9090:9090" # Prometheus web UI
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yaml
+
+  grafana:
+    image: grafana/grafana:latest
+    user: "0"
+    container_name: grafana
+    ports:
+      - "3000:3000" # Grafana UI
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_FEATURE_TOGGLES_ENABLE=traceqlEditor
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+      - loki
+
+volumes:
+  mongodb-data:
+  grafana-data:
+  loki-data:
+
+
+
+

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <!--<Sdk Name="Microsoft.Build.CentralPackageVersions" Version="2.1.3" />-->
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+	  <Nullable>enable</Nullable>
+	  <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="MongoDB.Driver" />
+    <PackageReference Include="URF.Core.Mongo" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\CSharpSampleCRUDTest.CleanArch.Core\CSharpSampleCRUDTest.CleanArch.Core.csproj" />
+    <ProjectReference Include="..\CSharpSampleCRUDTest.CleanArch.UseCases\CSharpSampleCRUDTest.CleanArch.UseCases.csproj" />
+  </ItemGroup>
+</Project>

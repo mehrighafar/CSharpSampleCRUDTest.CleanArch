@@ -1,0 +1,51 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+@host=http://localhost
+@port=57679
+
+// List all customer
+GET {{host}}:{{port}}/Customer
+
+###
+
+// Get a specific customer
+@id_to_get=3f85d673-f59b-46ca-9487-f0cbcd72d6f1
+GET {{host}}:{{port}}/Customer/{{id_to_get}}
+
+###
+
+// Add a new customer
+POST {{host}}:{{port}}/Customer
+Content-Type: application/json
+
+{
+  "firstName": "Elnaz",
+  "lastName": "Sin",
+  "dateOfBirth": "1990-05-02",
+  "phoneNumber": "3197010280432",
+  "email": "peter@example.com",
+  "bankAccountNumber": "5555555555554444"
+}
+
+###
+
+// Update a customer
+@id_to_update=3f85d673-f59b-46ca-9487-f0cbcd72d6f1
+PUT {{host}}:{{port}}/Customer
+Content-Type: application/json
+
+{
+    "id": "{{id_to_update}}",
+    "firstName": "Mary",
+    "lastName": "Sin",
+    "dateOfBirth": "1990-05-02",
+    "phoneNumber": "3197010280432",
+    "email": "peter@example.com",
+    "bankAccountNumber": "5555555555554444"
+  }
+
+###
+
+// Delete a customer
+@id_to_delete=3f85d673-f59b-46ca-9487-f0cbcd72d6f1
+DELETE {{host}}:{{port}}/Customer/{{id_to_delete}}
+
