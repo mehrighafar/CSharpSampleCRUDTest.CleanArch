@@ -1,8 +1,8 @@
 ﻿using Xunit;
 
-namespace CSharpSampleCRUDTest.CleanArch.FunctionalTests.Initialization;
+namespace CSharpSampleCRUDTest.CleanArch.IntegrationTests.Initialization;
 
-[Collection(nameof(MongoDbContainerCollection))]
+[Collection(nameof(TestCollection))]
 public class MongoDbCleanupFixture(MongoDbFixture mongoDbFixture) : IAsyncLifetime
 {
   private readonly MongoDbFixture _mongoDbFixture = mongoDbFixture ?? throw new ArgumentNullException(nameof(mongoDbFixture));

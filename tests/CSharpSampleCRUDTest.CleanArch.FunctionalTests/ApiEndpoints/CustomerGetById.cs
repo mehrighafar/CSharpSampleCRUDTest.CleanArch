@@ -2,7 +2,6 @@
 using CSharpSampleCRUDTest.CleanArch.Core.CustomerAggregate.Entities;
 using CSharpSampleCRUDTest.CleanArch.FunctionalTests.Initialization;
 using CSharpSampleCRUDTest.CleanArch.Infrastructure.Repositories;
-using DnsClient.Internal;
 using dotenv.net;
 using Xunit;
 

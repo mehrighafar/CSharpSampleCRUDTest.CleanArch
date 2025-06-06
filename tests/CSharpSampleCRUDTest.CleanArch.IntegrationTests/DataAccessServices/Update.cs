@@ -5,7 +5,7 @@ using Xunit;
 namespace CSharpSampleCRUDTest.CleanArch.IntegrationTests.DataAccessServices;
 
 [Collection(nameof(TestCollection))]
-public class Update(MongoDbFixture fixture)
+public class Update(MongoDbFixture fixture) : IClassFixture<MongoDbCleanupFixture>
 {
   private readonly MongoCustomerRepository _repository = fixture.customerRepository!;
 
